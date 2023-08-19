@@ -1,0 +1,30 @@
+body{
+    background-image: url('https://media.licdn.com/dms/image/D4E34AQE_tU0BC9gXHA/ugc-proxy-shrink_800/0/1686315901577?e=1692651600&v=beta&t=rYGPSBE_PPq_RLO--QjHPtnclV_UGmYn7f8g_bnJ0to');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.container{
+    width: 100%;
+    height: 500px;
+    /* background-color: tan; */
+}
+/* row */
+.row{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+/* col */
+.col-6{
+    width: 50%;
+    height: 100%;
+}
+/* div */
+.col-6>div{
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 14px 4px lightgray;
+}

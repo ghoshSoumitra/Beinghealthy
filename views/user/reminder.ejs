@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Reminders</title>
+    <link rel="stylesheet" href="/css/reminder.css">
+</head>
+<body>
+    <h1>Set Reminders</h1>
+
+    <!-- Yoga Reminder -->
+    <div class="timing">
+        <h2>Yoga Reminder</h2>
+        <label for="yogaTime">Select Yoga Time:</label>
+        <input type="time" id="yogaTime">
+        <button onclick="setAlarm('Yoga')">Set Yoga Alarm</button>
+        <button id="cancelYogaAlarm" style="display: none;" onclick="cancelAlarm('Yoga')">Cancel Alarm</button>
+    </div>
+
+    <!-- Medication Reminder -->
+    <div class="timing">
+        <h2>Medication Reminder</h2>
+        <label for="medicationTime">Select Medication Time:</label>
+        <input type="time" id="medicationTime">
+        <button onclick="setAlarm('Medication')">Set Medication Alarm</button>
+        <button id="cancelMedicationAlarm" style="display: none;" onclick="cancelAlarm('Medication')">Cancel Alarm</button>
+    </div>
+
+    <!-- Walking Reminder -->
+    <div class="timing">
+        <h2>Walking Reminder</h2>
+        <label for="walkingTime">Select Walking Time:</label>
+        <input type="time" id="walkingTime">
+        <button onclick="setAlarm('Walking')">Set Walking Alarm</button>
+        <button id="cancelWalkingAlarm" style="display: none;" onclick="cancelAlarm('Walking')">Cancel Alarm</button>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="yogaAudio" src="/alarmtones/yoga.mp3"></audio>
+    <audio id="medicationAudio" src="/alarmtones/medicine.mp3"></audio>
+    <audio id="walkingAudio" src="/alarmtones/walking.mp3"></audio>
+
+    <script>
+        // Object to store alarm timeouts
+        const alarmTimeouts = {};
+
+        function setAlarm(activity) {
+            const timeInputId = activity.toLowerCase() + 'Time';
+            const timeInput = document.getElementById(timeInputId);
+            const selectedTime = timeInput.value;
+
+            // Ensure a time is selected
+            if (!selectedTime) {
+                alert(`Please select a time for ${activity}`);
+                return;
+            }
+
+            // Convert selectedTime to milliseconds
+            const [hours, minutes] = selectedTime.split(':');
+            const now = new Date();
+            const alarmTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+
+            // Check if the selected time is in the past
+            if (alarmTime <= now) {
+                alert(`The selected time for ${activity} is in the past.`);
+                return;
+            }
+
+            // Calculate time until alarm in milliseconds (ensure it's positive)
+            let timeUntilAlarm = alarmTime - now;
+            if (timeUntilAlarm < 0) {
+                timeUntilAlarm += 24 * 60 * 60 * 1000; // Add 24 hours in milliseconds
+            }
+
+            // Clear any existing timeout for this activity
+            clearTimeout(alarmTimeouts[activity]);
+
+            // Set the alarm
+            alarmTimeouts[activity] = setTimeout(() => {
+               
+                // Show the "Cancel Alarm" button
+                const cancelButton = document.getElementById(`cancel${activity}Alarm`);
+                cancelButton.style.display = 'block';
+
+                // Play the corresponding audio
+                const audio = document.getElementById(`${activity.toLowerCase()}Audio`);
+                audio.play();
+              
+            }, timeUntilAlarm);
+
+            console.log('now:', now);
+            console.log('alarmTime:', alarmTime);
+            console.log('timeUntilAlarm:', timeUntilAlarm);
+        }
+
+        function cancelAlarm(activity) {
+            // Clear the timeout for this activity
+            clearTimeout(alarmTimeouts[activity]);
+
+            // Hide the "Cancel Alarm" button
+            const cancelButton = document.getElementById(`cancel${activity}Alarm`);
+            cancelButton.style.display = 'none';
+
+            // Pause the corresponding audio
+            const audio = document.getElementById(`${activity.toLowerCase()}Audio`);
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    </script>
+</body>
+</html>

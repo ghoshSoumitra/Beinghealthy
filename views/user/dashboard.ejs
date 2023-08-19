@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="/css/chart.css">
+<link rel="stylesheet" href="/css/userDashboard.css">
+
+<div class="container">
+  <div class="row">
+     <!-- submit health data -->
+     <div class="col-6">
+      <div class="calculator">
+        <h4>Submit Health Data</h4>
+        <img src=" https://static2.abbyy.com/abbyycommedia/25203/data-capture-impact-on-electronic-health-records.jpg" alt=""><br>
+        <a href="/user/takeHealthData" style="color:white" class="btn btn-dark btn-outline-warning" type="button">
+          <%if(locals.user && locals.user.medicalHistroy==false){%>Create<%}else{%>Update<%}%>
+        </a>
+      </div>
+    </div>
+      <!-- Blood report -->
+      <div class="col-6">
+        <div class="calculator">
+          <h4>Blood Pressure Report</h4>
+          <img src="https://media.istockphoto.com/id/504309690/photo/measuring-blood-pressure.jpg?b=1&s=612x612&w=0&k=20&c=ZNWRcG_WwEChzS7EajzWEI6KmdQlGo9ZNzUojgVQwGU=" alt=""><br>
+          <h4 style="color:fuchsia" ><b><% if(locals.user.medicalHistroy){%><%=BloodReport%><%}else{%>Not Found<%}%></b></h4>
+        </div>
+      </div>
+    <!-- health score -->
+    <div class="col-6">
+      <div class="chart-container">
+        <div id='myChart'><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a>
+          <center>
+            <h3><b>Health Score</b></h3>
+          </center>
+        </div>
+      </div>
+    </div>
+    <!-- BMI Score -->
+    <div class="col-6">
+      <div class="chart-container">
+        <div id='myBMI'><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a>
+          <center>
+            <h3><b>BMI Score</b></h3>
+          </center>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Reminders -->
+    <div class="col-6">
+      <div class="calculator">
+        <h4>Create Reminders</h4>
+        <img src=" https://www.guidingtech.com/wp-content/uploads/How_to_Create_Email_Reminder_in_Microsoft_Outlook_on_Windows_and_Mac.jpg" alt=""><br>
+        <a href="/user/createreminder" style="color:white" class="btn btn-dark btn-outline-warning" type="button">
+        Create Reminders
+        </a>
+      </div>
+    </div>
+
+    <!-- BMI calculetor -->
+    <div class="col-6">
+      <div class="calculator">
+        <h4>BMI Calculator</h4>
+        <img src="https://img.freepik.com/premium-vector/body-mass-index-bmi-calculator-obese-overweight-normal-category_664444-10.jpg?w=2000" alt=""><br>
+        <a href="/user/BMICalculator" style="color:white" class="btn btn-dark btn-outline-warning">BMI Calculator</a>
+      </div>
+    </div>
+    <!-- Blood pressure calculetor -->
+    <div class="col-6">
+      <div class="calculator">
+        <h4>Blood Pressure Calculator</h4>
+        <img src="https://m.media-amazon.com/images/I/71j4m-G4Y2L.png" alt=""><br>
+        <a href="/user/bloodPressure" style="color:white" class="btn btn-dark btn-outline-warning">Blood Pressure</a>
+      </div>
+    </div>
+   
+   
+  </div>
+</div>
+
+<!-- zing chart cdn for show charts  -->
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<!-- show userhealth chart -->
+<script src="/js/userHealthScoreChart.js"></script>
+<!-- show BMI chart -->
+<script src="/js/BMICalculator.js"></script>
+<!-- call functions -->
+<script>
+  // call BMI
+  BMIChart(<%=BMI %>);
+  // call health chart
+  userHealthChart(<%=healthScore %>);
+</script>
